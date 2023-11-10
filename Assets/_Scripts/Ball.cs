@@ -12,9 +12,12 @@ public class Ball : MonoBehaviour
     public AudioClip hitSound;
     public AudioClip loseSound;
     public GameData gameData;
+    SpriteRenderer spriteRenderer;
+    public int damage = 1;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         playerObj = GameObject.FindGameObjectWithTag("Player");
         deltaX = transform.position.x;
         audioSrc = Camera.main.GetComponent<AudioSource>();
@@ -31,7 +34,9 @@ public class Ball : MonoBehaviour
             else
             {
                 var pos = transform.position;
-                pos.x = playerObj.transform.position.x + deltaX;
+                pos.x = playerObj.transform.position.x - deltaX*Mathf.Sign(playerObj.transform.position.x);
+                if (Mathf.Sign(ballInitialForce.x) != -Mathf.Sign(playerObj.transform.position.x))
+                    ballInitialForce.x *= -1;
                 transform.position = pos;
             }
 
@@ -49,6 +54,8 @@ public class Ball : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Bonus"))
+            return;
         if (gameData.sound)
             audioSrc.PlayOneShot(loseSound, 5);
         Destroy(gameObject);
@@ -61,4 +68,9 @@ public class Ball : MonoBehaviour
             audioSrc.PlayOneShot(hitSound, 5);
     }
 
+
+    public void SetColor(Color color)
+    {
+        spriteRenderer.color = color;
+    }
 }

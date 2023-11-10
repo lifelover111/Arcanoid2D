@@ -24,6 +24,9 @@ public class Player : MonoBehaviour
     static bool gameStarted = false;
     int requiredPointsToBall { get { return 400 + (level - 1) * 20; } }
 
+    float posXbound;
+    float posXmouseDelta = 0;
+
     void SetMusic()
     {
         if (gameData.music)
@@ -144,6 +147,8 @@ public class Player : MonoBehaviour
         }
         SetMusic();
         StartLevel();
+        gameData.bonusProbabilities.Normalize();
+        posXbound = Camera.main.orthographicSize * Camera.main.aspect;
     }
     void Update()
     {
@@ -155,10 +160,13 @@ public class Player : MonoBehaviour
         
         if (Time.timeScale > 0)
         {
-
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var pos = transform.position;
-            pos.x = mousePos.x;
+            if (Mathf.Abs(mousePos.x - posXmouseDelta) > posXbound)
+            {
+                posXmouseDelta = mousePos.x - posXbound * Mathf.Sign(mousePos.x - posXmouseDelta); 
+            }
+            pos.x = Mathf.Abs(mousePos.x - posXmouseDelta) >= posXbound ? posXbound*Mathf.Sign(mousePos.x - posXmouseDelta) : mousePos.x - posXmouseDelta;
             transform.position = pos;
         }
         if (Input.GetKeyDown(KeyCode.M))
@@ -196,11 +204,12 @@ public class Player : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(5, 4, Screen.width - 10, 100),
-        string.Format("<color=yellow><size=30>Level <b>{0}</b> Balls <b>{1}</b>" + " Score <b>{2}</b></size></color>", gameData.level, gameData.balls, gameData.points));
+        GUI.skin.box.alignment = TextAnchor.UpperLeft;
+        GUI.Label(new Rect(Camera.main.orthographicSize * Camera.main.aspect, 5f, Screen.width - 10, 100),
+        string.Format("<color=yellow><size=20>Level <b>{0}</b> Balls <b>{1}</b>" + " Score <b>{2}</b></size></color>", gameData.level, gameData.balls, gameData.points));
         GUIStyle style = new GUIStyle();
         style.alignment = TextAnchor.UpperRight;
-        GUI.Label(new Rect(5, 14, Screen.width - 10, 100),
+        GUI.Label(new Rect(Camera.main.orthographicSize * Camera.main.aspect, 4.5f, Screen.width - 10, 100),
         string.Format(
         "<color=yellow><size=20><color=white>Space</color>-pause {0}" +
         " <color=white>N</color>-new" +

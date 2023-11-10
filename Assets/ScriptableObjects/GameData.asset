@@ -12,6 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a517864a884c9a547812f6b2ac62c62d, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  level: 1
-  balls: 6
-  points: 0
+  level: 11
+  balls: 8
+  points: 13920
+  pointsToBall: 240
+  resetOnStart: 0
+  music: 0
+  sound: 1
+  bonusProbabilities:
+    probabilities:
+    - bonus: Fire
+      probability: 0.2
+    - bonus: Steel
+      probability: 0.2
+    - bonus: Norm
+      probability: 0.2
+    - bonus: Default
+      probability: 0.4

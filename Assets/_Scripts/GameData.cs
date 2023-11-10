@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameData", menuName = "Game Data")]
@@ -12,6 +14,7 @@ public class GameData : ScriptableObject
     public bool resetOnStart;
     public bool music = true;
     public bool sound = true;
+    public BonusProbabilities bonusProbabilities;
 
     public void Reset()
     {
@@ -39,5 +42,40 @@ public class GameData : ScriptableObject
         pointsToBall = PlayerPrefs.GetInt("pointsToBall", 0);
         music = PlayerPrefs.GetInt("music", 1) == 1;
         sound = PlayerPrefs.GetInt("sound", 1) == 1;
+    }
+}
+
+[System.Serializable] public class BonusProbabilities
+{
+    [System.Serializable] public class BonusProbability {
+        public string bonus;
+        public float probability;
+    }
+    [SerializeField] BonusProbability[] probabilities;
+    public void Normalize()
+    {
+        float sum = 0;
+        foreach(var p in probabilities)
+        {
+            sum += p.probability;
+        }
+        foreach(var p in probabilities)
+        {
+            p.probability /= sum;
+        }
+
+        probabilities = probabilities.OrderBy(p => p.probability).ToArray();
+    }
+
+    public string GetBonus(float chance)
+    {
+        float P = 0;
+        for(int i = 0; i < probabilities.Length; i++)
+        {
+            if(chance >= P && chance < P + probabilities[i].probability)
+                return probabilities[i].bonus;
+            P += probabilities[i].probability;
+        }
+        return "Default";
     }
 }
