@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public GameObject greenPrefab;
     public GameObject yellowPrefab;
     public GameObject ballPrefab;
+    public GameObject redModifyPrefab;
 
     AudioSource audioSrc;
     public AudioClip pointSound;
@@ -132,6 +133,7 @@ public class Player : MonoBehaviour
         CreateBlocks(redPrefab, xMax, yMax, 1 + level, 10);
         CreateBlocks(greenPrefab, xMax, yMax, 1 + level, 12);
         CreateBlocks(yellowPrefab, xMax, yMax, 2 + level, 15);
+        CreateBlocks(redModifyPrefab, xMax, yMax, level, 4);
         CreateBalls();
     }
     void Start()

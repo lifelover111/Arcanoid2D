@@ -583,6 +583,7 @@ MonoBehaviour:
   greenPrefab: {fileID: 1142760961066880869, guid: be8493751ff2fed4a8f713c693fb0f14, type: 3}
   yellowPrefab: {fileID: 3489797460454090210, guid: 6fbab51a47bc4ed4984ae4a743446fa7, type: 3}
   ballPrefab: {fileID: 6130438857079251468, guid: 44fc4f11685edc34c85a4d5e6b55ebe4, type: 3}
+  redModifyPrefab: {fileID: 6951757160183956589, guid: fe8b2cb4a2c5e38498edeb95c88fe1ab, type: 3}
   pointSound: {fileID: 8300000, guid: 890ac1118401a3942835940d194eee94, type: 3}
 --- !u!1 &753878749
 GameObject:
