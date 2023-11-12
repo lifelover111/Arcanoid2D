@@ -12,6 +12,7 @@ public class GameData : ScriptableObject
     public int points = 0;
     public int pointsToBall = 0;
     public bool resetOnStart;
+    public bool isGameContinue = false;
     public bool music = true;
     public bool sound = true;
     public BonusProbabilities bonusProbabilities;

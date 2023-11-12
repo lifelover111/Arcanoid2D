@@ -90,6 +90,7 @@ public class Player : MonoBehaviour
         {
             if (level < maxLevel)
                 gameData.level++;
+            gameData.isGameContinue = true;
             SceneManager.LoadScene("MainScene");
         }
     }
