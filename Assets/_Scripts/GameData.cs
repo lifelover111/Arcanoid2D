@@ -17,14 +17,62 @@ public class GameData : ScriptableObject
     public bool sound = true;
     public RedBlockModifyScript redBlockScript;
     public BonusProbabilities bonusProbabilities;
+    public PlayerScoreData[] top5Scores = new PlayerScoreData[5];
+    public string currentPlayerName;
+    public bool hasBeatenRecord = false;
+
+    public void UpdateTop5Scores()
+    {
+        if (PlayerHasNewHighScore())
+        {
+
+            PlayerScoreData newScore = new PlayerScoreData
+            {
+                playerName = currentPlayerName, 
+                playerScore = points     
+            };
+
+            AddScoreToTop5(newScore);
+
+            SortTop5Scores();
+            hasBeatenRecord = true;
+        }
+    }
+
+    private bool PlayerHasNewHighScore()
+    {
+        int currentPlayerScore = points;
+        
+        if (top5Scores.Length > 0)
+        {
+            int maxScoreInTop5 = top5Scores.Min(score => score.playerScore);
+            return currentPlayerScore > maxScoreInTop5;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    private void AddScoreToTop5(PlayerScoreData newScore)
+    {
+        top5Scores = top5Scores.Concat(new[] { newScore }).ToArray();
+    }
+
+    private void SortTop5Scores()
+    {
+        top5Scores = top5Scores.OrderByDescending(score => score.playerScore).ToArray();
+
+        top5Scores = top5Scores.Take(5).ToArray();
+    }
 
     public void Reset()
     {
+        UpdateTop5Scores();
         level = 1;
         balls = 6;
         points = 0;
         pointsToBall = 0;
-        isGameContinue = true;
         RedBlockModifyScript.allRedBlocks.Clear();
     }
 
@@ -47,6 +95,8 @@ public class GameData : ScriptableObject
         music = PlayerPrefs.GetInt("music", 1) == 1;
         sound = PlayerPrefs.GetInt("sound", 1) == 1;
     }
+
+
 }
 
 [System.Serializable] public class BonusProbabilities
@@ -82,4 +132,11 @@ public class GameData : ScriptableObject
         }
         return "Default";
     }
+}
+
+[System.Serializable]
+public class PlayerScoreData
+{
+    public string playerName;
+    public int playerScore;
 }

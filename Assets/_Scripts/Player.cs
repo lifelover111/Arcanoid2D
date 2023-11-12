@@ -95,8 +95,20 @@ public class Player : MonoBehaviour
         {
             if (level < maxLevel)
                 gameData.level++;
-            gameData.isGameContinue = true;
-            SceneManager.LoadScene("MainScene");
+            if (level == maxLevel)
+            {
+                gameData.Reset();
+                gameData.isGameContinue = false;
+                Cursor.visible = true;
+                SceneManager.LoadScene("MainScene");
+            }
+            else
+            {
+                gameData.isGameContinue = true;
+                SceneManager.LoadScene("MainScene");
+            }
+
+            
         }
     }
     IEnumerator BlockDestroyedCoroutine2()
@@ -202,6 +214,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            gameData.isGameContinue = false;
             Application.Quit();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

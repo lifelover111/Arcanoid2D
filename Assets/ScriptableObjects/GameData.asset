@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 1
   balls: 5
-  points: 70
-  pointsToBall: 70
+  points: 180
+  pointsToBall: 180
   resetOnStart: 0
   isGameContinue: 0
   music: 1
   sound: 1
+  redBlockScript: {fileID: 0}
   bonusProbabilities:
     probabilities:
     - bonus: Fire

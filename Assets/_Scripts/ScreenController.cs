@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ScreenController : MonoBehaviour
 {
     public  Canvas startCanvas;
     public  GameObject player; 
     public  GameData gameData;
-
-    public GameObject PanelPause;
+    public TMP_InputField nameInputField;
+    public GameObject recordText;
 
     void Start()
     {
         if (!gameData.isGameContinue)
         {
-            // Показать начальную канву
             ShowStartCanvas();
         }
         else
@@ -30,46 +30,49 @@ public class ScreenController : MonoBehaviour
 
     void ShowStartCanvas()
     {
-        Debug.Log("eblan?");
         startCanvas.enabled = true;
+        if(gameData.hasBeatenRecord)
+        {
+            gameData.hasBeatenRecord = false;
+            recordText.SetActive(true);
+        }
     }
 
 
     void HideStartCanvas()
     {
         startCanvas.enabled = false;
+        if (gameData.hasBeatenRecord)
+            recordText.SetActive(false);
     }
 
     public void StartGame()
     {
-        // Скрыть начальную канву
+
         HideStartCanvas();
 
-        // Здесь вы можете запустить логику начала игры
-        player.gameObject.SetActive(true); // Вызовите метод в вашем скрипте Player, который начинает игру.
+        player.gameObject.SetActive(true); 
     }
 
     public void ExitGame()
     {
+        gameData.isGameContinue = false;
         Application.Quit();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
 
-    public void ContinueGame()
+    public void SavePlayerName()
     {
-        Time.timeScale = 1;
-        Cursor.visible = false;
-        PanelPause.SetActive(false);
+        if (nameInputField != null)
+        {
+            gameData.currentPlayerName = nameInputField.text;
+        }
+        else
+        {
+            Debug.LogError("InputField не был назначен!");
+        }
     }
 
-
-    public void NewGame()
-    {
-        Time.timeScale = 1;
-        PanelPause.SetActive(false);
-        gameData.Reset();
-        SceneManager.LoadScene("MainScene");
-    }
 }
