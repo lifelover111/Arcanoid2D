@@ -15,6 +15,7 @@ public class GameData : ScriptableObject
     public bool isGameContinue = false;
     public bool music = true;
     public bool sound = true;
+    public RedBlockModifyScript redBlockScript;
     public BonusProbabilities bonusProbabilities;
 
     public void Reset()
@@ -23,6 +24,8 @@ public class GameData : ScriptableObject
         balls = 6;
         points = 0;
         pointsToBall = 0;
+        isGameContinue = true;
+        RedBlockModifyScript.allRedBlocks.Clear();
     }
 
     public void Save()

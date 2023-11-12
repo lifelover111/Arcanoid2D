@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
     public GameObject ballPrefab;
     public GameObject redModifyPrefab;
 
+    public GameObject PanelPause;
+
+
     AudioSource audioSrc;
     public AudioClip pointSound;
 
@@ -78,6 +81,8 @@ public class Player : MonoBehaviour
             else
             {
                 gameData.Reset();
+                gameData.isGameContinue = false;
+                Cursor.visible = true;
                 SceneManager.LoadScene("MainScene");
             }
 
@@ -157,9 +162,18 @@ public class Player : MonoBehaviour
     {
         if (Input.GetButtonDown("Pause"))
             if (Time.timeScale > 0)
+            {
                 Time.timeScale = 0;
+                Cursor.visible = true;
+                PanelPause.SetActive(true);
+            }
             else
+            {
                 Time.timeScale = 1;
+                Cursor.visible = false;
+                PanelPause.SetActive(false);
+            }
+                
         
         if (Time.timeScale > 0)
         {

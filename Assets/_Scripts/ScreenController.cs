@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 public class ScreenController : MonoBehaviour
 {
-    public Canvas startCanvas;
-    public GameObject player; // Перетащите ваш объект Player сюда в инспекторе.
-    public GameData gameData;
+    public  Canvas startCanvas;
+    public  GameObject player; 
+    public  GameData gameData;
+
+    public GameObject PanelPause;
 
     void Start()
     {
@@ -18,18 +20,17 @@ public class ScreenController : MonoBehaviour
             ShowStartCanvas();
         }
         else
-        {
+        {   
             startCanvas.enabled = false;
             player.gameObject.SetActive(true);
         }
         
 
-
-
     }
 
     void ShowStartCanvas()
     {
+        Debug.Log("eblan?");
         startCanvas.enabled = true;
     }
 
@@ -50,8 +51,25 @@ public class ScreenController : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.Log("gg");
-        // Логика выхода из приложения
-        Application.Quit(); // ВНИМАНИЕ: Это может не работать во всех случаях
+        Application.Quit();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
+    public void ContinueGame()
+    {
+        Time.timeScale = 1;
+        Cursor.visible = false;
+        PanelPause.SetActive(false);
+    }
+
+
+    public void NewGame()
+    {
+        Time.timeScale = 1;
+        PanelPause.SetActive(false);
+        gameData.Reset();
+        SceneManager.LoadScene("MainScene");
     }
 }

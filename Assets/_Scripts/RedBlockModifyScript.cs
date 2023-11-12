@@ -12,7 +12,7 @@ public class RedBlockModifyScript : MonoBehaviour
     public string initialLabel = "O";
     public string alternateLabel = "X";
     public int points;
-    private static List<RedBlockModifyScript> allRedBlocks = new List<RedBlockModifyScript>();
+    public static List<RedBlockModifyScript> allRedBlocks = new List<RedBlockModifyScript>();
     private string currentLabel;
 
     Player player;
