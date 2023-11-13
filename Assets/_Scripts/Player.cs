@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     public GameObject greenPrefab;
     public GameObject yellowPrefab;
     public GameObject ballPrefab;
+    public GameObject redModifyPrefab;
+
+    public GameObject PanelPause;
+
 
     AudioSource audioSrc;
     public AudioClip pointSound;
@@ -77,6 +81,8 @@ public class Player : MonoBehaviour
             else
             {
                 gameData.Reset();
+                gameData.isGameContinue = false;
+                Cursor.visible = true;
                 SceneManager.LoadScene("MainScene");
             }
 
@@ -89,7 +95,20 @@ public class Player : MonoBehaviour
         {
             if (level < maxLevel)
                 gameData.level++;
-            SceneManager.LoadScene("MainScene");
+            if (level == maxLevel)
+            {
+                gameData.Reset();
+                gameData.isGameContinue = false;
+                Cursor.visible = true;
+                SceneManager.LoadScene("MainScene");
+            }
+            else
+            {
+                gameData.isGameContinue = true;
+                SceneManager.LoadScene("MainScene");
+            }
+
+            
         }
     }
     IEnumerator BlockDestroyedCoroutine2()
@@ -132,6 +151,7 @@ public class Player : MonoBehaviour
         CreateBlocks(redPrefab, xMax, yMax, 1 + level, 10);
         CreateBlocks(greenPrefab, xMax, yMax, 1 + level, 12);
         CreateBlocks(yellowPrefab, xMax, yMax, 2 + level, 15);
+        CreateBlocks(redModifyPrefab, xMax, yMax, level, 4);
         CreateBalls();
     }
     void Start()
@@ -154,9 +174,18 @@ public class Player : MonoBehaviour
     {
         if (Input.GetButtonDown("Pause"))
             if (Time.timeScale > 0)
+            {
                 Time.timeScale = 0;
+                Cursor.visible = true;
+                PanelPause.SetActive(true);
+            }
             else
+            {
                 Time.timeScale = 1;
+                Cursor.visible = false;
+                PanelPause.SetActive(false);
+            }
+                
         
         if (Time.timeScale > 0)
         {
@@ -185,6 +214,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            gameData.isGameContinue = false;
             Application.Quit();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
