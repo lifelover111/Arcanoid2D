@@ -15,7 +15,6 @@ public class GameData : ScriptableObject
     public bool isGameContinue = false;
     public bool music = true;
     public bool sound = true;
-    public RedBlockModifyScript redBlockScript;
     public BonusProbabilities bonusProbabilities;
     public PlayerScoreData[] top5Scores = new PlayerScoreData[5];
     public string currentPlayerName;
@@ -28,8 +27,8 @@ public class GameData : ScriptableObject
 
             PlayerScoreData newScore = new PlayerScoreData
             {
-                playerName = currentPlayerName, 
-                playerScore = points     
+                playerName = currentPlayerName,
+                playerScore = points
             };
 
             AddScoreToTop5(newScore);
@@ -42,7 +41,7 @@ public class GameData : ScriptableObject
     private bool PlayerHasNewHighScore()
     {
         int currentPlayerScore = points;
-        
+
         if (top5Scores.Length > 0)
         {
             int maxScoreInTop5 = top5Scores.Min(score => score.playerScore);
@@ -99,9 +98,12 @@ public class GameData : ScriptableObject
 
 }
 
-[System.Serializable] public class BonusProbabilities
+[System.Serializable]
+public class BonusProbabilities
 {
-    [System.Serializable] public class BonusProbability {
+    [System.Serializable]
+    public class BonusProbability
+    {
         public string bonus;
         public float probability;
     }
@@ -109,11 +111,11 @@ public class GameData : ScriptableObject
     public void Normalize()
     {
         float sum = 0;
-        foreach(var p in probabilities)
+        foreach (var p in probabilities)
         {
             sum += p.probability;
         }
-        foreach(var p in probabilities)
+        foreach (var p in probabilities)
         {
             p.probability /= sum;
         }
@@ -124,9 +126,9 @@ public class GameData : ScriptableObject
     public string GetBonus(float chance)
     {
         float P = 0;
-        for(int i = 0; i < probabilities.Length; i++)
+        for (int i = 0; i < probabilities.Length; i++)
         {
-            if(chance >= P && chance < P + probabilities[i].probability)
+            if (chance >= P && chance < P + probabilities[i].probability)
                 return probabilities[i].bonus;
             P += probabilities[i].probability;
         }

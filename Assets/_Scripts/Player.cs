@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
                 gameData.Reset();
                 gameData.isGameContinue = false;
                 Cursor.visible = true;
-                SceneManager.LoadScene("MainScene");
+                SceneManager.LoadScene("MainMenu");
             }
 
     }
@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
                 gameData.Reset();
                 gameData.isGameContinue = false;
                 Cursor.visible = true;
-                SceneManager.LoadScene("MainScene");
+                SceneManager.LoadScene("MainMenu");
             }
             else
             {

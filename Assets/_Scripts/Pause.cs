@@ -12,6 +12,7 @@ public class Pause : MonoBehaviour
     public void ExitGame()
     {
         gameData.isGameContinue = false;
+        gameData.Reset();
         Application.Quit();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -28,9 +29,16 @@ public class Pause : MonoBehaviour
 
     public void NewGame()
     {
+        gameData.Reset();
         Time.timeScale = 1;
         pauseCanvas.SetActive(false);
-        gameData.Reset();
         SceneManager.LoadScene("MainScene");
+    }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1;
+        gameData.Reset();
+        SceneManager.LoadScene("MainMenu");
     }
 }

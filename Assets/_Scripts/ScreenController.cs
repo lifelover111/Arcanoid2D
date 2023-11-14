@@ -12,46 +12,33 @@ public class ScreenController : MonoBehaviour
     public  GameData gameData;
     public TMP_InputField nameInputField;
     public GameObject recordText;
+    public Transform background;
 
     void Start()
     {
-        if (!gameData.isGameContinue)
-        {
-            ShowStartCanvas();
-        }
-        else
-        {   
-            startCanvas.enabled = false;
-            player.gameObject.SetActive(true);
-        }
-        
-
-    }
-
-    void ShowStartCanvas()
-    {
-        startCanvas.enabled = true;
-        if(gameData.hasBeatenRecord)
+        if (gameData.hasBeatenRecord)
         {
             gameData.hasBeatenRecord = false;
             recordText.SetActive(true);
         }
+
+        background.GetComponent<SpriteRenderer>().sprite = Resources.Load(Random.Range(1, 31).ToString("d2"), typeof(Sprite)) as Sprite;
+        SetBackgroundScale();
+        SetMusic();
     }
-
-
-    void HideStartCanvas()
+    private void Update()
     {
-        startCanvas.enabled = false;
-        if (gameData.hasBeatenRecord)
-            recordText.SetActive(false);
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            gameData.music = !gameData.music;
+            SetMusic();
+        }
     }
 
     public void StartGame()
     {
-
-        HideStartCanvas();
-
-        player.gameObject.SetActive(true); 
+        SavePlayerName();
+        SceneManager.LoadScene("MainScene");
     }
 
     public void ExitGame()
@@ -75,4 +62,25 @@ public class ScreenController : MonoBehaviour
         }
     }
 
+
+    private void OnApplicationQuit()
+    {
+        gameData.hasBeatenRecord = false;
+    }
+
+    void SetBackgroundScale()
+    {
+        float scale = Camera.main.orthographicSize * Camera.main.aspect > Camera.main.orthographicSize ?
+            Camera.main.orthographicSize * Camera.main.aspect / 6.6f :
+            Camera.main.orthographicSize / 5;
+        background.localScale = new Vector3(scale * background.localScale.x, scale * background.localScale.y, 1);
+    }
+
+    void SetMusic()
+    {
+        if (gameData.music)
+            Camera.main.gameObject.GetComponent<AudioSource>().Play();
+        else
+            Camera.main.gameObject.GetComponent<AudioSource>().Stop();
+    }
 }

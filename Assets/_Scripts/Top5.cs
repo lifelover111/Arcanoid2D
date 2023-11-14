@@ -21,7 +21,8 @@ public class Top5 : MonoBehaviour
         if (top5Text != null && gameData != null)
         {
             top5Text.text = "Top 5:\n";
-
+            if (gameData.top5Scores == null || gameData.top5Scores?.Length == 0)
+                return;
             var sortedTop5 = gameData.top5Scores.OrderByDescending(score => score.playerScore).ToArray();
 
             for (int i = 0; i < Mathf.Min(sortedTop5.Length, 5); i++)

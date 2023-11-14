@@ -29,7 +29,8 @@ public class Ball : MonoBehaviour
             if (Input.GetButtonDown("Fire1"))
             {
                 rb.isKinematic = false;
-                rb.AddForce(ballInitialForce);
+                //rb.AddForce(ballInitialForce);
+                rb.velocity = ballInitialForce / 50;
             }
             else
             {
@@ -50,6 +51,12 @@ public class Ball : MonoBehaviour
             rb.velocity = v;
         }
 
+
+        if(rb.velocity.magnitude != (ballInitialForce/50).magnitude && rb.velocity.magnitude != 0)
+        {
+            Vector2 dir = rb.velocity.normalized;
+            rb.velocity = dir * (ballInitialForce / 50).magnitude;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)

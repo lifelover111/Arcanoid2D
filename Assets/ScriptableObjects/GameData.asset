@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a517864a884c9a547812f6b2ac62c62d, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  level: 1
+  level: 2
   balls: 5
-  points: 180
-  pointsToBall: 180
+  points: 200
+  pointsToBall: 200
   resetOnStart: 0
-  isGameContinue: 0
-  music: 1
+  isGameContinue: 1
+  music: 0
   sound: 1
   redBlockScript: {fileID: 0}
   bonusProbabilities:
@@ -31,3 +31,5 @@ MonoBehaviour:
       probability: 0.2
     - bonus: Default
       probability: 0.4
+  currentPlayerName: 
+  hasBeatenRecord: 0
